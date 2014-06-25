@@ -11,8 +11,6 @@ npm i assemble-layouts --save-dev
 
 ## Layouts
 
-## Layouts
-
 Setup a new instance of `Layouts` to generate
 rendered layout stacks.
 
