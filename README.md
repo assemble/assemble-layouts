@@ -9,6 +9,82 @@ Install with [npm](npmjs.org):
 npm i assemble-layouts --save-dev
 ```
 
+## Layouts
+
+## Layouts
+
+Setup a new instance of `Layouts` to generate
+rendered layout stacks.
+
+**Example**
+```js
+
+var options = {
+ delims: ['<%', '%>'], // start and end delimiters for body tag - defaults to ['{{', '}}']
+ default: '<% body %>', // default body tag for empty layouts - defaults to '{{ body }}'
+ matter: '\\s*body\\s*', // inner contents of body tag regex - defaults to '\\s*body\\s*'
+};
+
+// create a new instance with the above options
+var layouts = new Layouts(options);
+
+// assuming parsedLayouts have been read in an parsed,
+// add them to the `layouts` cache
+parsedLayouts.forEach(function (layout) {
+ // layout needs to have at least `data` and `content`
+ layouts.set(layout.name, layout);
+});
+
+// render the entire layout stack for a specific page object.
+// assuming the `page` object has already been read in and parsed
+// and contains a `data` and `content` property
+var template = layouts.render(page);
+
+```
+
+* `options` {Object}: global options for how to determine layouts.   
+
+
+### .render
+
+Create the entire template based on the `file` and `options`
+and how they define the `layout` stack
+
+* `file` {Object}: object containing `data` and `content` properties. 
+* `options` {Object}: additional options to override `global` and/or `file` options   
+
+
+### .set
+
+Stores a layout.
+
+* `name` {String}: name of the layout to store. 
+* `layout` {Object}: object containing `data` and `content` properties.   
+
+
+### .get
+
+Returns a stored layout.
+
+* `name` {String}: name of the layout   
+
+
+### .createStack
+
+Creates a layout stack based on options and layout data.
+Returned stack is an array with the layouts to use going
+from the top level parent to the lowest level child.
+
+* `options` {Object}: used to determine the layout to use.   
+
+
+### .useLayout
+
+Returns a valid layout name if one should be used, otherwise,
+returns null to indicate a layout should not be used.
+
+* `layout` {String}: layout to use, or a negative value to not use a layout
+
 ## Author
 
 **Jon Schlinkert**

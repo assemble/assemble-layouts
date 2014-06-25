@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "verb": "~0.2.0",
+    "verb-tag-jscomments": "^0.1.2",
     "chai": "~1.9.1",
     "mocha": "~1.18.2",
     "fs-utils": "^0.4.3",
