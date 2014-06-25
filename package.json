@@ -39,6 +39,12 @@
   "devDependencies": {
     "verb": "~0.2.0",
     "chai": "~1.9.1",
-    "mocha": "~1.18.2"
+    "mocha": "~1.18.2",
+    "fs-utils": "^0.4.3",
+    "gray-matter": "^0.4.2"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "delims": "^0.1.4"
   }
 }
