@@ -11,7 +11,10 @@ function loadLayouts (layouts) {
 
 function loadPages () {
   return file.find('test/fixtures/pages/*.hbs').map(function (filepath) {
-    return matter(file.readFileSync(filepath));
+    var page = matter(file.readFileSync(filepath));
+    page.contents = page.content;
+    delete page.content;
+    return page;
   });
 }
 
