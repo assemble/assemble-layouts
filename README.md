@@ -1,6 +1,6 @@
 # assemble-layouts [![NPM version](https://badge.fury.io/js/assemble-layouts.png)](http://badge.fury.io/js/assemble-layouts)
 
-> Layouts for your templates.
+> Assemble plugin for rendering nested template layouts.
 
 ## Install
 Install with [npm](npmjs.org):
