@@ -21,13 +21,13 @@
     }
   ],
   "keywords": [
-    "docs",
-    "documentation",
-    "generate",
-    "generator",
-    "markdown",
+    "layout",
+    "nested",
+    "layouts",
+    "template",
     "templates",
-    "verb"
+    "assemble",
+    "assembleplugin"
   ],
   "main": "index.js",
   "engines": {
@@ -45,7 +45,8 @@
     "gray-matter": "^0.4.2"
   },
   "dependencies": {
-    "lodash": "^2.4.1",
-    "delims": "^0.1.4"
+    "delims": "^0.1.4",
+    "falsey": "^0.1.0",
+    "xtend": "^3.0.0"
   }
 }
