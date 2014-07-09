@@ -1,3 +1,4 @@
+'use strict';
 
 var Layouts = require('../');
 var file = require('fs-utils');
@@ -19,7 +20,6 @@ function loadPages () {
 }
 
 describe('Layouts', function () {
-
   it('should create a layout stack', function () {
     var layouts = new Layouts({layout: 'default'});
     loadLayouts(layouts);
@@ -40,5 +40,4 @@ describe('Layouts', function () {
     });
 
   });
-
-})
+});

@@ -1,7 +1,7 @@
 {
   "name": "assemble-layouts",
-  "description": "Layouts for your templates.",
-  "version": "0.1.2",
+  "description": "Assemble plugin for rendering nested template layouts.",
+  "version": "0.1.3",
   "homepage": "https://github.com/assemble/assemble-layouts",
   "author": {
     "name": "Brian Woodward",
@@ -21,8 +21,13 @@
     }
   ],
   "keywords": [
+    "layout",
+    "nested",
     "layouts",
-    "templates"
+    "template",
+    "templates",
+    "assemble",
+    "assembleplugin"
   ],
   "main": "index.js",
   "engines": {
@@ -40,7 +45,8 @@
     "gray-matter": "^0.4.2"
   },
   "dependencies": {
-    "lodash": "^2.4.1",
-    "delims": "^0.1.4"
+    "delims": "^0.1.4",
+    "falsey": "^0.1.0",
+    "xtend": "^3.0.0"
   }
 }

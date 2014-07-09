@@ -31,7 +31,7 @@ function Layouts(options) {
 
   var defaults = {
     delims: ['{{', '}}'],
-    expression: '{{ body }}',
+    bodyTag: '{{ body }}',
     matter: '\\s*body\\s*',
     flags: 'gi',
     beginning: '',
@@ -41,8 +41,8 @@ function Layouts(options) {
 
   this.options = extend(defaults, options);
   this._layouts = {};
-  this._expression = this.options.expression;
-  this._search = delims(this.options.delims, this.options).evaluate;
+  this.bodyTag = this.options.bodyTag;
+  this._bodyRe = delims(this.options.delims, this.options).evaluate;
 }
 
 
@@ -60,14 +60,38 @@ function Layouts(options) {
 Layouts.prototype.render = function (file, options) {
   var opts = extend({}, this.options, file.data, options);
   var stack = this.createStack(opts);
-  var template = this._expression;
 
-  template = stack.reduce(function (template, name) {
+  // Setup the object to be returned, and store file.contents on `orig`
+  var results = {data: {}, content: this.bodyTag, orig: file.contents};
+
+  // loop over the layout stack building the context and content
+  results = stack.reduce(function (acc, name) {
     var layout = this.get(name);
-    return template.replace(this._search, layout.content);
-  }.bind(this), template);
+    acc.data = extend(acc.data, layout.data);
+    acc.content = this._inject(acc.content, layout.content);
+    return acc;
+  }.bind(this), results);
 
-  return template.replace(this._search, file.content);
+  // Pass the accumlated, final results
+  results.data = extend(results.data, file.data);
+  results.content = this._inject(results.content, file.contents);
+  return results;
+};
+
+
+/**
+ * ## ._inject
+ *
+ * Injects the inner content into the outer content based on the body regex
+ *
+ * @param {String} `outer` content that wraps the inner content
+ * @param {String} `inner` content to be injected into the outer content
+ * @returns {String} resulting content
+ * @api private
+ */
+
+Layouts.prototype._inject = function (outer, inner) {
+  return outer.replace(this._bodyRe, inner);
 };
 
 
