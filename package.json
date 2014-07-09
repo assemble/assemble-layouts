@@ -1,33 +1,28 @@
 {
   "name": "assemble-layouts",
-  "description": "Assemble plugin for rendering nested template layouts.",
-  "version": "0.1.1",
-  "homepage": "https://github.com/doowb/assemble-layouts",
+  "description": "Layouts for your templates.",
+  "version": "0.1.2",
+  "homepage": "https://github.com/assemble/assemble-layouts",
   "author": {
     "name": "Brian Woodward",
     "url": "https://github.com/doowb"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/doowb/assemble-layouts.git"
+    "url": "git://github.com/assemble/assemble-layouts.git"
   },
   "bugs": {
-    "url": "https://github.com/doowb/assemble-layouts/issues"
+    "url": "https://github.com/assemble/assemble-layouts/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/doowb/assemble-layouts/blob/master/LICENSE-MIT"
+      "url": "https://github.com/assemble/assemble-layouts/blob/master/LICENSE-MIT"
     }
   ],
   "keywords": [
-    "layout",
-    "nested",
     "layouts",
-    "template",
-    "templates",
-    "assemble",
-    "assembleplugin"
+    "templates"
   ],
   "main": "index.js",
   "engines": {
@@ -45,8 +40,7 @@
     "gray-matter": "^0.4.2"
   },
   "dependencies": {
-    "delims": "^0.1.4",
-    "falsey": "^0.1.0",
-    "xtend": "^3.0.0"
+    "lodash": "^2.4.1",
+    "delims": "^0.1.4"
   }
 }

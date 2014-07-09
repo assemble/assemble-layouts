@@ -4,14 +4,17 @@ var file = require('fs-utils');
 var matter = require('gray-matter');
 
 function loadLayouts (layouts) {
-  file.expand('test/fixtures/layouts/*.hbs').forEach(function (filepath) {
+  file.find('test/fixtures/layouts/*.hbs').forEach(function (filepath) {
     layouts.set(file.basename(filepath), matter(file.readFileSync(filepath)));
   });
 }
 
 function loadPages () {
-  return file.expand('test/fixtures/pages/*.hbs').map(function (filepath) {
-    return matter(file.readFileSync(filepath));
+  return file.find('test/fixtures/pages/*.hbs').map(function (filepath) {
+    var page = matter(file.readFileSync(filepath));
+    page.contents = page.content;
+    delete page.content;
+    return page;
   });
 }
 
@@ -35,5 +38,7 @@ describe('Layouts', function () {
       var template = layouts.render(page);
       console.log('template', template);
     });
+
   });
+
 })
