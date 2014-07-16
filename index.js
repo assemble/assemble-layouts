@@ -3,6 +3,7 @@
 var delims = require('delims');
 var extend = require('xtend');
 var isFalsey = require('falsey');
+var File = require('vinyl');
 
 
 /**
@@ -62,19 +63,21 @@ Layouts.prototype.render = function (file, options) {
   var stack = this.createStack(opts);
 
   // Setup the object to be returned, and store file.contents on `orig`
-  var results = {data: {}, content: this.bodyTag, orig: file.contents};
+  var results = new File({contents: new Buffer(this.bodyTag)});
+  results.locals = file.locals;
+  results.orig = file.contents;
 
   // loop over the layout stack building the context and content
   results = stack.reduce(function (acc, name) {
     var layout = this.get(name);
-    acc.data = extend(acc.data, layout.data);
-    acc.content = this._inject(acc.content, layout.content);
+    acc.locals = extend(acc.locals, layout.locals);
+    acc.contents = this._inject(acc.contents, layout.contents);
     return acc;
   }.bind(this), results);
 
   // Pass the accumlated, final results
-  results.data = extend(results.data, file.data);
-  results.content = this._inject(results.content, file.contents);
+  results.locals = extend(results.locals, file.locals);
+  results.contents = this._inject(results.contents, file.contents);
   return results;
 };
 
@@ -91,7 +94,7 @@ Layouts.prototype.render = function (file, options) {
  */
 
 Layouts.prototype._inject = function (outer, inner) {
-  return outer.replace(this._bodyRe, inner);
+  return new Buffer(outer.toString('utf8').replace(this._bodyRe, inner.toString('utf8')));
 };
 
 
@@ -141,7 +144,7 @@ Layouts.prototype.createStack = function (options) {
   while (name) {
     stack.unshift(name);
     var layout = this.get(name);
-    name = this.useLayout(layout.data && layout.data.layout);
+    name = this.useLayout(layout.locals && layout.locals.layout);
   }
   return stack;
 };

@@ -3,18 +3,24 @@
 var Layouts = require('../');
 var file = require('fs-utils');
 var matter = require('gray-matter');
+var File = require('vinyl');
 
 function loadLayouts (layouts) {
   file.find('test/fixtures/layouts/*.hbs').forEach(function (filepath) {
-    layouts.set(file.basename(filepath), matter(file.readFileSync(filepath)));
+    var obj = matter.read(filepath);
+    var layout = new File({contents: new Buffer(obj.content)});
+    layout.locals = obj.data;
+    layout.orig = new Buffer(obj.original);
+    layouts.set(file.basename(filepath), layout);
   });
 }
 
 function loadPages () {
   return file.find('test/fixtures/pages/*.hbs').map(function (filepath) {
-    var page = matter(file.readFileSync(filepath));
-    page.contents = page.content;
-    delete page.content;
+    var obj = matter(file.readFileSync(filepath));
+    var page = new File({contents: new Buffer(obj.content)});
+    page.locals = obj.data;
+    page.orig = new Buffer(obj.original);
     return page;
   });
 }
@@ -36,7 +42,7 @@ describe('Layouts', function () {
 
     pages.forEach(function (page) {
       var template = layouts.render(page);
-      console.log('template', template);
+      console.log('template', template.contents.toString());
     });
 
   });
