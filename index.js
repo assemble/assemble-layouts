@@ -53,7 +53,7 @@ function Layouts(options) {
  * Flatten and render the entire layout stack based on the `file` and `options`
  * and how the layout stack is defined.
  *
- * @param {Object} `file` object containing `data` and `content` properties.
+ * @param {Object} `file` object containing `locals` and `contents` properties.
  * @param {Object} `options` additional options to override `global` and/or `file` options
  * @returns {String} rendered template
  */
@@ -141,9 +141,9 @@ Layouts.prototype.get = function (name) {
 Layouts.prototype.createStack = function (options) {
   var stack = [];
   var name = this.useLayout(options.layout);
-  while (name) {
+  var layout = null;
+  while (name && (layout = this.get(name))) {
     stack.unshift(name);
-    var layout = this.get(name);
     name = this.useLayout(layout.locals && layout.locals.layout);
   }
   return stack;
