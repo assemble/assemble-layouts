@@ -32,8 +32,8 @@ function Layouts(options) {
 
   var defaults = {
     delims: ['{{', '}}'],
-    bodyTag: '{{ body }}',
-    matter: '\\s*body\\s*',
+    tag: '{{ body }}',
+    re: '\\s*body\\s*',
     flags: 'gi',
     beginning: '',
     end: '',
@@ -41,8 +41,9 @@ function Layouts(options) {
   };
 
   this.options = extend(defaults, options);
+  this.options.matter = this.options.re;
   this._layouts = {};
-  this.bodyTag = this.options.bodyTag;
+  this.tag = this.options.tag;
   this._bodyRe = delims(this.options.delims, this.options).evaluate;
 }
 
@@ -63,7 +64,7 @@ Layouts.prototype.render = function (file, options) {
   var stack = this.createStack(opts);
 
   // Setup the object to be returned, and store file.contents on `orig`
-  var results = new File({contents: new Buffer(this.bodyTag)});
+  var results = new File({contents: new Buffer(this.tag)});
   results.locals = file.locals;
   results.orig = file.contents;
 
