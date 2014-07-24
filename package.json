@@ -1,7 +1,7 @@
 {
   "name": "assemble-layouts",
   "description": "Assemble plugin for rendering nested template layouts.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "homepage": "https://github.com/assemble/assemble-layouts",
   "author": {
     "name": "Brian Woodward",
