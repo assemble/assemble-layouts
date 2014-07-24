@@ -42,9 +42,9 @@ function Layouts(options) {
 
   this.options = extend(defaults, options);
   this.options.matter = this.options.re;
-  this._layouts = {};
+  this.templates = {};
   this.tag = this.options.tag;
-  this._bodyRe = delims(this.options.delims, this.options).evaluate;
+  this.regex = delims(this.options.delims, this.options).evaluate;
 }
 
 
@@ -61,7 +61,7 @@ function Layouts(options) {
 
 Layouts.prototype.flatten = function (file, options) {
   var opts = extend({}, this.options, file.data, options);
-  var stack = this.createStack(opts);
+  var stack = this.createStack(opts.layout);
 
   // Setup the object to be returned, and store file.contents on `orig`
   var results = new File({contents: new Buffer(this.tag)});
@@ -95,7 +95,7 @@ Layouts.prototype.flatten = function (file, options) {
  */
 
 Layouts.prototype._inject = function (outer, inner) {
-  return new Buffer(outer.toString('utf8').replace(this._bodyRe, inner.toString('utf8')));
+  return new Buffer(outer.toString('utf8').replace(this.regex, inner.toString('utf8')));
 };
 
 
@@ -109,7 +109,7 @@ Layouts.prototype._inject = function (outer, inner) {
  */
 
 Layouts.prototype.set = function (name, layout) {
-  this._layouts[name] = layout;
+  this.templates[name] = layout;
   return this;
 };
 
@@ -124,7 +124,7 @@ Layouts.prototype.set = function (name, layout) {
  */
 
 Layouts.prototype.get = function (name) {
-  return this._layouts[name];
+  return this.templates[name];
 };
 
 
@@ -139,13 +139,13 @@ Layouts.prototype.get = function (name) {
  * @returns {Array} `stack` parent => child layouts.
  */
 
-Layouts.prototype.createStack = function (options) {
+Layouts.prototype.createStack = function (name) {
+  name = this.useLayout(name);
+  var template = null;
   var stack = [];
-  var name = this.useLayout(options.layout);
-  var layout = null;
-  while (name && (layout = this.get(name))) {
+  while (name && (template = this.get(name))) {
     stack.unshift(name);
-    name = this.useLayout(layout.data && layout.data.layout);
+    name = this.useLayout(template.data && template.data.layout);
   }
   return stack;
 };
