@@ -9,7 +9,7 @@ function loadLayouts (layouts) {
   file.find('test/fixtures/layouts/*.hbs').forEach(function (filepath) {
     var obj = matter.read(filepath);
     var layout = new File({contents: new Buffer(obj.content)});
-    layout.locals = obj.data;
+    layout.data = obj.data;
     layout.orig = new Buffer(obj.original);
     layouts.set(file.basename(filepath), layout);
   });
@@ -19,7 +19,7 @@ function loadPages () {
   return file.find('test/fixtures/pages/*.hbs').map(function (filepath) {
     var obj = matter(file.readFileSync(filepath));
     var page = new File({contents: new Buffer(obj.content)});
-    page.locals = obj.data;
+    page.data = obj.data;
     page.orig = new Buffer(obj.original);
     return page;
   });
@@ -41,7 +41,7 @@ describe('Layouts', function () {
     console.log();
 
     pages.forEach(function (page) {
-      var template = layouts.render(page);
+      var template = layouts.flatten(page);
       console.log('template', template.contents.toString());
     });
 
